@@ -1,0 +1,96 @@
+@startuml trab01
+
+package trab01 {
+    class Pessoa {
+        - nome : String
+        - cpf : String
+        + Pessoa(nome : String, cpf : String)
+        + getNome() : String
+        + getCpf() : String
+        + setNome(nome : String) : void
+        + setCpf(cpf : String) : void
+        + exibirInfo() : void
+    }
+
+    interface Agendavel {
+        + agendar(horario : Horario) : void
+    }
+
+    class Professor extends Pessoa implements Agendavel {
+        - horarios : List<Horario>
+        - disponibilidades : List<Horario>
+        - totalProfessores : int
+        + Professor(nome : String, cpf : String, departamento : Departamento)
+        + adicionarHorario(horario : Horario) : void
+        + adicionarDisponibilidade(horario : Horario) : void
+        + agendar(horario : Horario) : void
+        + getDisponibilidades() : List<Horario>
+        + getHorarios() : List<Horario>
+        + exibirInfo() : void
+    }
+
+    class Departamento {
+        - nome : String
+        - professores : List<Professor>
+        + Departamento(nome : String)
+        + adicionarProfessor(professor : Professor) : void
+        + getNome() : String
+        + setNome(nome : String) : void
+        + getProfessores() : List<Professor>
+        + setProfessores(professores : List<Professor>) : void
+    }
+
+    class Sala {
+        - identificacao : String
+        - horariosDisponiveis : List<Horario>
+        + Sala(identificacao : String)
+        + getIdentificacao() : String
+        + setIdentificacao(identificacao : String) : void
+        + adicionarHorario(horario : Horario) : void
+        + getHorariosDisponiveis() : List<Horario>
+    }
+
+    class Horario {
+        - dia : DiaSemana
+        - horaInicio : String
+        - sala : Sala
+        + Horario(dia : DiaSemana, horaInicio : String, sala : Sala)
+        + getDia() : DiaSemana
+        + getHoraInicio() : String
+        + getSala() : Sala
+        + setDia(dia : DiaSemana) : void
+        + setHoraInicio(horaInicio : String) : void
+        + setSala(sala : Sala) : void
+    }
+
+    class GeradorDeGrade {
+        + gerarAulas(professores : List<Professor>) : void
+    }
+
+    class ColecaoGenerica<T> {
+        - itens : List<T>
+        + ColecaoGenerica()
+        + adicionar(item : T) : void
+        + obter(index : int) : T
+    }
+
+    enum DiaSemana {
+        SEGUNDA
+        TERCA
+        QUARTA
+        QUINTA
+        SEXTA
+    }
+
+    Professor --> "1" Departamento
+    Professor --> "0..*" Horario
+    Departamento --> "0..*" Professor
+    Sala --> "0..*" Horario
+    Horario --> "1" Sala
+    Horario --> "1" DiaSemana
+    GeradorDeGrade --> "0..*" Professor
+    ColecaoGenerica --> "0..*" T
+}
+
+@enduml
+
